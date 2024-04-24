@@ -18,9 +18,6 @@
 
 (def svg-parser (SAXSVGDocumentFactory. "org.apache.xerces.parsers.SAXParser"))
 
-(defn svg-file->document [file-string parser]
-  (.createDocument parser file-string))
-
 (defn svg-string->document [s]
   (with-open [in (ByteArrayInputStream. (.getBytes s StandardCharsets/UTF_8))]
     (.createDocument svg-parser "file:///fake.svg" in)))
@@ -111,7 +108,8 @@
        (when (not filename)
          (.toByteArray out-stream))))))
 
-;;   ;;; Examples ;;;
+;; ------------------------------------
+  ;;; Examples ;;;
 ;; (def example-vega-lite-chart-map
 ;;   {:data {:values [{:a "A" :b 28}
 ;;                    {:a "B" :b 55}
@@ -137,14 +135,6 @@
 ;; (-> example-vega-lite-chart-map
 ;;     vl-map->bytearray
 ;;     (svg-document->png {:filename "example-vega-lite-chart.png" :width 100}))
-
-;; ;; write svg to png file
-;; (-> example-svg-file
-;;     File.
-;;     .toURL
-;;     .toString
-;;     (svg-file->document (SAXSVGDocumentFactory. "org.apache.xerces.parsers.SAXParser"))
-;;     (svg-document->png {:filename "file_example_SVG_20kB.png"}))
 
 ;; ;; write svg to png in xlsx
 
