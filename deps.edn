@@ -12,4 +12,6 @@
                                                               :git/sha    "f9fb86430ebf533bfc9d5cec5bf0a94ed07146f3"
                                                               :exclusions [techascent/tech.ml.dataset io.github.nextjournal/clerk]}
                               techascent/tech.ml.dataset     {:mvn/version "7.021"}
-                              scicloj/tablecloth             {:mvn/version "7.021"}}}}}
+                              scicloj/tablecloth             {:mvn/version "7.021"}
+                              mastodonc/kixi.large           {:git/url "https://github.com/MastodonC/kixi.large"
+                                                              :git/sha "bda0812f692b8521e8273ff8c7754499ee834b5e"}}}}}
