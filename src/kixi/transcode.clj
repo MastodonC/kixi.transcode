@@ -10,12 +10,6 @@
    [org.apache.batik.transcoder TranscoderInput TranscoderOutput SVGAbstractTranscoder]
    [org.apache.batik.transcoder.image PNGTranscoder]))
 
-(defn file-str [filename]
-  (-> filename
-      File.
-      .toURL
-      .toString))
-
 (def svg-parser (SAXSVGDocumentFactory. "org.apache.xerces.parsers.SAXParser"))
 
 (defn svg-string->document [s]
@@ -123,8 +117,6 @@
 ;;    :encoding {:x {:axis {:labelAngle 0} :field "a" :type "nominal"}
 ;;               :y {:field "b" :type "quantitative"}}
 ;;    :mark "bar"})
-
-;; (def example-svg-file "./resources/images/file_example_SVG_20kB.svg")
 
 ;; ;; write vega-lite chart map to byte array
 ;; (-> example-vega-lite-chart-map
