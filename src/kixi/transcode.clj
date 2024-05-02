@@ -3,6 +3,7 @@
    [clojure.data.json :as json]
    [applied-science.darkstar :as darkstar])
   (:import
+   javax.imageio.ImageIO
    [java.awt RenderingHints]
    [java.nio.charset StandardCharsets]
    [java.io File FileOutputStream ByteArrayInputStream ByteArrayOutputStream]
@@ -95,6 +96,10 @@
        (.transcode trans in out)
        (.toByteArray out-stream)))))
 
+(defn byte-array-to-png [byte-array filename]
+  (with-open [in-stream (ByteArrayInputStream. byte-array)]
+    (let [image (ImageIO/read in-stream)]
+      (ImageIO/write image "png" (File. filename)))))
 
 ;; ------------------------------------
   ;;; Examples ;;;
@@ -119,7 +124,7 @@
 ;; ;; write vega-lite chart map to png file and change size
 ;; (-> example-vega-lite-chart-map
 ;;     vl-map->bytearray
-;;     (svg-document->png {:filename "example-vega-lite-chart.png" :width 100}))
+;;     (byte-array-to-png "example-vega-lite-chart.png"))
 
 ;; ;; write svg to png in xlsx
 
