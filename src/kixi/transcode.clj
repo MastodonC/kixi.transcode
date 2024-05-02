@@ -139,7 +139,6 @@
 ;;                        :values
 ;;                        tc/dataset)
 ;;       ::large/images      [{::large/image (-> example-vega-lite-chart-map
-;;                                               vl-map->bytearray
-;;                                               svg-document->png)}]}]
+;;                                               vl-map->bytearray)}]}]
 ;;     large/create-workbook
 ;;     (large/save-workbook! "test.xlsx"))
