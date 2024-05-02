@@ -74,23 +74,17 @@
    :max-width  SVGAbstractTranscoder/KEY_MAX_WIDTH
    :max-height SVGAbstractTranscoder/KEY_MAX_HEIGHT})
 
-(defn vl-map->bytearray [vl-chart-map]
-  (-> vl-chart-map
-      json/json-str
-      darkstar/vega-lite-spec->svg
-      svg-string->document))
-
-(defn svg-document->png
-  ([svg-document]
-   (svg-document->png svg-document {}))
-  ([svg-document {:keys [filename width scale]}]
-   (with-open [out-stream (cond
-                            filename
-                            (FileOutputStream. filename)
-                            :else
-                            (ByteArrayOutputStream.))]
-     (let [{doc-width :width :as dimensions} (document-dimensions svg-document)
-           in (TranscoderInput. svg-document)
+(defn vl-map->bytearray
+  ([vl-chart-map]
+   (vl-map->bytearray vl-chart-map {}))
+  ([vl-chart-map {:keys [width scale]}]
+   (with-open [out-stream (ByteArrayOutputStream.)]
+     (let [svg-doc (-> vl-chart-map
+                       json/json-str
+                       darkstar/vega-lite-spec->svg
+                       svg-string->document)
+           {doc-width :width :as dimensions} (document-dimensions svg-doc)
+           in (TranscoderInput. svg-doc)
            out (TranscoderOutput. out-stream)
            trans (high-quality-png-transcoder)]
        (cond
@@ -99,8 +93,8 @@
          width
          (.addTranscodingHint trans (:width transcoder-keys) (float width)))
        (.transcode trans in out)
-       (when (not filename)
-         (.toByteArray out-stream))))))
+       (.toByteArray out-stream)))))
+
 
 ;; ------------------------------------
   ;;; Examples ;;;
@@ -120,8 +114,7 @@
 
 ;; ;; write vega-lite chart map to byte array
 ;; (-> example-vega-lite-chart-map
-;;     vl-map->bytearray
-;;     svg-document->png)
+;;     vl-map->bytearray)
 
 ;; ;; write vega-lite chart map to png file and change size
 ;; (-> example-vega-lite-chart-map
